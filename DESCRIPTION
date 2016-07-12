@@ -1,0 +1,11 @@
+Package: EMSaov
+Type: Package
+Title: EMS for the analysis of variance
+Version: 1.2
+Date: 2016-06-3
+Author: Eun-Kyung Lee, Hye-Min Choi
+Maintainer: Eun-Kyung Lee <lee.eunk@gmail.com>
+Description: the analysis of variance table with the expected mean square for
+    various experimental models.
+License: GPL (>= 2)
+RoxygenNote: 5.0.1
