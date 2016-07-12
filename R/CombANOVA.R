@@ -63,8 +63,8 @@ CombANOVA<-function(SS.table,del.ID,...){
       F.temp<-temp.SS[i,3]/temp.SS[which(EMS.t==SS.temp),3]
       pValue.temp<- 1-stats::pf(F.temp,temp.SS[i,1],
                          temp.SS[which(EMS.t==SS.temp),1])
-    } else if(i!=nrow(temp.SS)&test.EMS!="Error"){
-      Appr.result<-Approx.F(test.EMS,temp.split.EMS,temp.SS)
+    } else if(i!=nrow(temp.SS)&length(test.EMS)!=1){
+      Appr.result<-Approx.F(data.frame(temp.SS,EMS=unlist(EMS.t)),1)
       F.temp<-Appr.result$Appr.F
       pValue.temp<-Appr.result$Appr.Pvalue
     } else{
