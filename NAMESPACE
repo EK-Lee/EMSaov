@@ -3,3 +3,4 @@
 export(Approx.F)
 export(CombANOVA)
 export(EMS.anova)
+export(EMSaovApp)

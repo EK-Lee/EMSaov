@@ -8,4 +8,5 @@ Maintainer: Eun-Kyung Lee <lee.eunk@gmail.com>
 Description: the analysis of variance table with the expected mean square for
     various experimental models.
 License: GPL (>= 2)
+Imports: shiny, graphics 
 RoxygenNote: 5.0.1
