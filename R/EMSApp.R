@@ -36,7 +36,7 @@ EMSaovApp<-function(){
                           shiny::tableOutput("result2"),
                           shiny::p(paste("Signif. codes : <0.0001 '***'",
                                   "0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"))),
-          shiny::tabPanel("Combined ANOVA",
+          shiny::tabPanel("Pooled ANOVA",
                           shiny::uiOutput("choose_ANOVA"),
                           shiny::submitButton("Submit1"),
                           shiny::tableOutput("result3"))
