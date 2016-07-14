@@ -347,7 +347,7 @@ EMSaovApp<-function(){
             Model.level<-EMSaov.env$outANOVA$Model.Level
             Model.level<-c(Model.level[-sel.id],
                            Model.level[length(Model.level)])
-            out<- CombANOVA(EMSaov.env$outANOVA,del.ID)
+            out<- PooledANOVA(EMSaov.env$outANOVA,del.ID)
           }else{
             out<-EMSaov.env$outANOVA 
           }

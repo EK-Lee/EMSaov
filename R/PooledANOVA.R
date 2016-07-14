@@ -1,7 +1,7 @@
-#' Combine nonsignificant interactions to Residuals
+#' Pooling nonsignificant interactions to Residuals
 #' 
-#' Combine nonsignificant interactions to Residuals
-#' @usage CombANOVA(SS.table,del.ID,...)
+#' Pooling nonsignificant interactions to Residuals
+#' @usage PooledANOVA(SS.table,del.ID,...)
 #' @param SS.table result from EMS.anova  
 #' @param del.ID id's to combine sum of squares. Use rownames of SS.table
 #' @param ... arguments to be passed to methods
@@ -25,9 +25,9 @@
 #'                         model.level=c(1,1,2))
 #' anova.result                         
 #' del.ID<-c("Group:test","Residuals")
-#' CombANOVA(anova.result,del.ID)
+#' PooledANOVA(anova.result,del.ID)
 
-CombANOVA<-function(SS.table,del.ID,...){
+PooledANOVA<-function(SS.table,del.ID,...){
   temp.SS<-SS.table[,1:2]
   temp.EMS<-as.character(SS.table$EMS)
   Model.level<-SS.table$Model.Level
@@ -108,7 +108,18 @@ CombANOVA<-function(SS.table,del.ID,...){
     tot.result<-data.frame(SS.table.t,Fvalue=F.value,Pvalue=P.value,
                            Sig=Signif,EMS=matrix(EMS.t))   
   }
-  rownames(tot.result)<-rownames(temp.SS)  
+  rownames(tot.result)<-rownames(temp.SS) 
+  if(!is.null(tot.result$Model.Level)){
+    sel.id<-NULL
+    for(i in 1:max(tot.result$Model.Level)){
+      temp.id<-which(tot.result$Model.Level==i)
+      sel.id<-c(sel.id,temp.id[length(temp.id)])
+    } 
+    tot.result$Fvalue[sel.id]<-""
+    tot.result$Pvalue[sel.id]<-""
+    tot.result$Sig[sel.id]<-""
+  }
+  
   return(tot.result)
 }
 
