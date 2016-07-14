@@ -333,16 +333,6 @@ EMS.anova<-function(data.tot,Y.name,var.list,FixRan.list,nested.list=NULL,
                            Sig=Signif,EMS=matrix(EMS))   
   }
   rownames(tot.result)<-rownames(SS.table)  
-  if(!is.null(tot.result$Model.Level)){
-    sel.id<-NULL
-    for(i in 1:max(tot.result$Model.Level)){
-       temp.id<-which(tot.result$Model.Level==i)
-       sel.id<-c(sel.id,temp.id[length(temp.id)])
-    } 
-    tot.result$Fvalue[sel.id]<-""
-    tot.result$Pvalue[sel.id]<-""
-    tot.result$Sig[sel.id]<-""
-  }
   return(tot.result)
 }
 

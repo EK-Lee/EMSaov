@@ -109,17 +109,6 @@ PooledANOVA<-function(SS.table,del.ID,...){
                            Sig=Signif,EMS=matrix(EMS.t))   
   }
   rownames(tot.result)<-rownames(temp.SS) 
-  if(!is.null(tot.result$Model.Level)){
-    sel.id<-NULL
-    for(i in 1:max(tot.result$Model.Level)){
-      temp.id<-which(tot.result$Model.Level==i)
-      sel.id<-c(sel.id,temp.id[length(temp.id)])
-    } 
-    tot.result$Fvalue[sel.id]<-""
-    tot.result$Pvalue[sel.id]<-""
-    tot.result$Sig[sel.id]<-""
-  }
-  
   return(tot.result)
 }
 
