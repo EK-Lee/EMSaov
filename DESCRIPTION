@@ -1,12 +1,11 @@
 Package: EMSaov
 Type: Package
-Title: EMS for the analysis of variance
+Title: The Analysis of Variance with EMS
 Version: 1.2
-Date: 2016-06-3
+Date: 2016-07-22
 Author: Eun-Kyung Lee, Hye-Min Choi
 Maintainer: Eun-Kyung Lee <lee.eunk@gmail.com>
-Description: the analysis of variance table with the expected mean square for
-    various experimental models.
+Description: This package provides the analysis of variance table including the expected mean squares (EMS) for various types of experimental design. When some variables are random effects or we use special experimental design such as nested design, repeated-measures design, or split-plot design, it is not easy to find the appropriate test, especially denominator for F-statistic which depends on EMS. 
 License: GPL (>= 2)
 Imports: shiny, graphics 
 RoxygenNote: 5.0.1
