@@ -51,6 +51,7 @@ EMSanova<-function(formula,data,type=NULL,nested=NULL,
     var.list<-unique(temp1[temp1!=" " & temp1 !="*"& temp1!=""])
   } 
   ## adjust the order of X variable for multi-level model
+
   if(!is.null(level)){
     sort.id<-sort.list(level)
     nested<-nested[sort.id]
@@ -59,8 +60,7 @@ EMSanova<-function(formula,data,type=NULL,nested=NULL,
     type<-type[sort.id]
     if(!is.null(n.table)) n.table[1:length(sort.id)]<-n.table[sort.id]
   }  
-  
-  if(!is.null(nested) &sum(ifelse(length(nested)!=0,!is.na(nested),0))!=0){
+  if(!is.null(nested) &ifelse(length(nested)!=0,sum(!is.na(nested)),0)!=0){
     nested<-lapply(nested,function(x){ 
       xx<-strsplit(x,split="\\*")[[1]];
       temp<-NULL
@@ -74,15 +74,21 @@ EMSanova<-function(formula,data,type=NULL,nested=NULL,
   } else{
     nested<-as.list(rep(NA,length(var.list)))
   }   
-  
+  EMSflag<-FALSE
   if(is.null(n.table)){
     for(i in 1:length(var.list)){
-      n.table<-c(n.table,length(table(data[,var.list[i]])))
+      temp<-table(data[,var.list[i]])
+      if(sum(temp!=mean(temp))!=0)
+         EMSflag<-TRUE
+      n.table<-c(n.table,length(temp))
     }
     n.table<-c(n.table,mean(table(apply(data[,var.list],1,
                                         function(x) paste(x,collapse="")))))
   }
-  
+  if(EMSflag){
+    warning("EMSanova cannot handle the unbalanced design.")
+    return(0)
+  }  
   ## Change all X variables to factors
   
   data<-data[,c(var.list,Y.name)]

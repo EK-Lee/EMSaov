@@ -1,12 +1,14 @@
 #' Shiny App for the analysis of variance in various experimental designs
 #' 
 #' Shiny App for the analysis of variance in various experimental designs
-#' @usage EMSaovApp()
+#' @usage EMSaovApp(nested.N=2)
+#' @param nested.N number of factors of possible crossed design 
+#'                 which can nest a factor
 #' @export
 #' @examples
 #' #EMSaovApp()
 
-EMSaovApp<-function(){
+EMSaovApp<-function(nested.N=2){
   EMSaov.env<-new.env()
   EMS_app=shiny::shinyApp(
     ui=shiny::fluidPage(
@@ -113,10 +115,27 @@ EMSaovApp<-function(){
      
       makeselectButton<-function(n){
         nested.L<-EMSaov.env$Colnames
-        nested.n<-length(nested.L)
-        for(i in 1:(nested.n-1))
-        for(j in (i+1):nested.n)  
-          nested.L<-c(nested.L,paste(nested.L[i],nested.L[j],sep="*"))
+        if(nested.N==2){
+          nested.n<-length(nested.L)
+          for(i in 1:(nested.n-1))
+          for(j in (i+1):nested.n)  
+            nested.L<-c(nested.L,paste(nested.L[i],nested.L[j],sep="*"))
+        }else{
+          p<-length(nested.L)-1
+          nn<-2^p
+          D.matrix<-matrix(as.numeric(
+                           unlist(strsplit(sapply(0:(nn-1),
+                                  function(x) 
+                                    paste(rev(as.integer(intToBits(x))[1:p]), 
+                                          collapse="")),""))),
+                                           byrow=TRUE,ncol=p)
+          nested.L<-apply(D.matrix,1,
+                         function(x) 
+                           paste(nested.L[-(p+1)][as.logical(x)],collapse="*"))
+          nested.L<-rev(nested.L)[sort.list(apply(D.matrix[nn:1,],1,sum))][-1]   
+        }
+
+                
         if(n==1){
           shiny::selectInput(paste0("nested",n),
                      label=paste0("[nested]\n ",EMSaov.env$Colnames[n]),
@@ -257,6 +276,10 @@ EMSaovApp<-function(){
                                  type=type,                        
                                  nested=nested,#input$Xvar[nested],
                                  level=split)
+          shiny::validate(
+            shiny::need(out!=0,
+                 "EMSApp cannot handle the unbalanced design.")          
+          ) 
           out<-data.frame(source=rownames(out),out)          
           
         }      
@@ -316,6 +339,10 @@ EMSaovApp<-function(){
                          nested=nested,#input$Xvar[nested],
                          level=split,
                          approximate=TRUE)
+          shiny::validate(
+            shiny::need(out!=0,
+            "EMSApp cannot handle the unbalanced design.")          
+          )  
           out<-data.frame(source=rownames(out),out)
           EMSaov.env$outANOVA<-out
         }      
