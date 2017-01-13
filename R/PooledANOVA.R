@@ -1,10 +1,9 @@
 #' Pooling nonsignificant interactions to Residuals
 #' 
 #' Pooling nonsignificant interactions to Residuals
-#' @usage PooledANOVA(SS.table,del.ID,...)
-#' @param SS.table result from EMS.anova  
+#' @usage PooledANOVA(SS.table,del.ID)
+#' @param SS.table result from EMSanova  
 #' @param del.ID id's to combine sum of squares. Use rownames of SS.table
-#' @param ... arguments to be passed to methods
 #' @export
 #' @examples
 #' test <- gl(2, 21, 42, labels = c("Ctl","Trt"))
@@ -17,18 +16,16 @@
 #'   28.74,26.11,25.45,25.58,27.7,28.82,28.99,
 #'   22.52,21.79,23.53,30.21,28.65,28.33,27.86)
 #' tot.data<-data.frame(Y=Y,test=test,Group=Group,Subject=Subject)
-#' anova.result<-EMS.anova(data.tot=tot.data,
-#'                         Y.name="Y",
-#'                         var.list=c("Group","Subject","test"),
-#'                         FixRan.list=c("F","R","F"),
-#'                         nested.list=c(NA,"Group",NA),
-#'                         model.level=c(1,1,2))
+#' anova.result<-EMSanova(Y~Group+Subject+test,data=tot.data,
+#'                         type=c("F","R","F"),
+#'                         nested=c(NA,"Group",NA),
+#'                         level=c(1,1,2))
 #' anova.result                         
 #' del.ID<-c("Group:test","Residuals")
 #' PooledANOVA(anova.result,del.ID)
 
-PooledANOVA<-function(SS.table,del.ID,...){
-  temp.SS<-SS.table[,1:2]
+PooledANOVA<-function(SS.table,del.ID){
+  temp.SS<-SS.table[,c("Df","SS")]
   temp.EMS<-as.character(SS.table$EMS)
   Model.level<-SS.table$Model.Level
   temp.ID<-del.ID[del.ID!="Residuals"]
@@ -54,7 +51,6 @@ PooledANOVA<-function(SS.table,del.ID,...){
   F.value<-NULL
   P.value<-NULL
   Signif<-NULL
-
   for(i in 1:nrow(temp.SS)){
     n.SE<-length(temp.split.EMS[[i]])
     SS.temp<-paste(temp.split.EMS[[i]][-n.SE],collapse="+")
@@ -64,13 +60,14 @@ PooledANOVA<-function(SS.table,del.ID,...){
       pValue.temp<- 1-stats::pf(F.temp,temp.SS[i,1],
                          temp.SS[which(EMS.t==SS.temp),1])
     } else if(i!=nrow(temp.SS)&length(test.EMS)!=1){
-      Appr.result<-Approx.F(data.frame(temp.SS,EMS=unlist(EMS.t)),1)
+      Appr.result<-ApproxF(data.frame(temp.SS,EMS=unlist(EMS.t)),rownames(temp.SS)[i])
       F.temp<-Appr.result$Appr.F
       pValue.temp<-Appr.result$Appr.Pvalue
     } else{
       F.temp<-NA
       pValue.temp<-NA
     }
+ 
     if(!is.na(pValue.temp)){
       if(pValue.temp<=0.001){
         Signif.temp <- "***"
@@ -109,6 +106,7 @@ PooledANOVA<-function(SS.table,del.ID,...){
                            Sig=Signif,EMS=matrix(EMS.t))   
   }
   rownames(tot.result)<-rownames(temp.SS) 
+
   return(tot.result)
 }
 

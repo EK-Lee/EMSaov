@@ -4,14 +4,12 @@
 \alias{PooledANOVA}
 \title{Pooling nonsignificant interactions to Residuals}
 \usage{
-PooledANOVA(SS.table,del.ID,...)
+PooledANOVA(SS.table,del.ID)
 }
 \arguments{
-\item{SS.table}{result from EMS.anova}
+\item{SS.table}{result from EMSanova}
 
 \item{del.ID}{id's to combine sum of squares. Use rownames of SS.table}
-
-\item{...}{arguments to be passed to methods}
 }
 \description{
 Pooling nonsignificant interactions to Residuals
@@ -27,12 +25,10 @@ Y<-c(26.25,24.33,22.52,29.33,28.9,25.13,29.33,
   28.74,26.11,25.45,25.58,27.7,28.82,28.99,
   22.52,21.79,23.53,30.21,28.65,28.33,27.86)
 tot.data<-data.frame(Y=Y,test=test,Group=Group,Subject=Subject)
-anova.result<-EMS.anova(data.tot=tot.data,
-                        Y.name="Y",
-                        var.list=c("Group","Subject","test"),
-                        FixRan.list=c("F","R","F"),
-                        nested.list=c(NA,"Group",NA),
-                        model.level=c(1,1,2))
+anova.result<-EMSanova(Y~Group+Subject+test,data=tot.data,
+                        type=c("F","R","F"),
+                        nested=c(NA,"Group",NA),
+                        level=c(1,1,2))
 anova.result                         
 del.ID<-c("Group:test","Residuals")
 PooledANOVA(anova.result,del.ID)
