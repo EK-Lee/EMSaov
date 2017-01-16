@@ -28,17 +28,8 @@ Calculate ANOVA table with EMS for various experimental design - factorial desig
 design, mixed effect model, etc.
 }
 \examples{
-test <- gl(2, 21, 42, labels = c("Ctl","Trt"))
-Group <- rep(gl(3, 7, 21, labels = c("I","II","III")),2)
-Subject <- rep(1:7,6)
-Y<-c(26.25,24.33,22.52,29.33,28.9,25.13,29.33,
-27.47,25.19,23.53,24.57,26.88,27.86,28.09,
-22.27,21.55,23.31,30.03,28.17,28.09,27.55,
-  29.5,27.62,25.71,31.55,31.35,29.07,31.15,
-  28.74,26.11,25.45,25.58,27.7,28.82,28.99,
-  22.52,21.79,23.53,30.21,28.65,28.33,27.86)
-tot.data<-data.frame(Y=Y,test=test,Group=Group,Subject=Subject)
-anova.result<-EMSanova(Y~Group+Subject+test,data=tot.data,
+data(baseball)
+anova.result<-EMSanova(velocity~Group+Subject+test,data=baseball,
                  type=c("F","R","F"),
                  nested=c(NA,"Group",NA),
                  level=c(1,1,2))
