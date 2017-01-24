@@ -3,14 +3,13 @@
 #' Calculate ANOVA table with EMS for various experimental design - factorial design, nested
 #' design, mixed effect model, etc.
 #' @usage EMSanova(formula,data,type=NULL,nested=NULL,
-#'                  level=NULL,n.table=NULL,approximate=FALSE)
+#'                  level=NULL,approximate=FALSE)
 #' @param formula model formula         
 #' @param data data frame for ANOVA
 #' @param type the list of fixed/random for each factor. 
 #'        "F" for the fixed effect, "R" for the random effect
 #' @param nested the list of nested effect
 #' @param level list of model level
-#' @param n.table numbers of levels in each factor
 #' @param approximate calculate approximated F for "TRUE"
 #' @export
 #' @examples
@@ -21,7 +20,7 @@
 #'                  level=c(1,1,2))
 #' anova.result                  
 EMSanova<-function(formula,data,type=NULL,nested=NULL,
-                       level=NULL,n.table=NULL,approximate=FALSE){
+                       level=NULL,approximate=FALSE){
   
   Call<-match.call()
   indx<-match(c("formula","data"),names(Call),nomatch=0L)
@@ -49,7 +48,7 @@ EMSanova<-function(formula,data,type=NULL,nested=NULL,
     level<-level[sort.id]
     var.list<-var.list[sort.id]
     type<-type[sort.id]
-    if(!is.null(n.table)) n.table[1:length(sort.id)]<-n.table[sort.id]
+    #if(!is.null(n.table)) n.table[1:length(sort.id)]<-n.table[sort.id]
   }  
   if(!is.null(nested) &ifelse(length(nested)!=0,sum(!is.na(nested)),0)!=0){
     nested<-lapply(nested,function(x){ 
@@ -66,7 +65,8 @@ EMSanova<-function(formula,data,type=NULL,nested=NULL,
     nested<-as.list(rep(NA,length(var.list)))
   }   
   EMSflag<-FALSE
-  if(is.null(n.table)){
+  n.table<-NULL
+#  if(is.null(n.table)){
     for(i in 1:length(var.list)){
       temp<-table(data[,var.list[i]])
       if(sum(temp!=mean(temp))!=0)
@@ -75,7 +75,7 @@ EMSanova<-function(formula,data,type=NULL,nested=NULL,
     }
     n.table<-c(n.table,mean(table(apply(data[,var.list],1,
                                         function(x) paste(x,collapse="")))))
-  }
+#  }
   if(EMSflag){
     warning("EMSanova cannot handle the unbalanced design.")
     return(0)

@@ -5,7 +5,7 @@
 \title{Calculate ANOVA table with EMS}
 \usage{
 EMSanova(formula,data,type=NULL,nested=NULL,
-                 level=NULL,n.table=NULL,approximate=FALSE)
+                 level=NULL,approximate=FALSE)
 }
 \arguments{
 \item{formula}{model formula}
@@ -18,8 +18,6 @@ EMSanova(formula,data,type=NULL,nested=NULL,
 \item{nested}{the list of nested effect}
 
 \item{level}{list of model level}
-
-\item{n.table}{numbers of levels in each factor}
 
 \item{approximate}{calculate approximated F for "TRUE"}
 }

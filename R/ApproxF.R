@@ -11,7 +11,7 @@
 #'                         type=c("F","R","R"))
 #' anova.result                         
 #' ApproxF(SS.table=anova.result,approx.name="Gate") 
-#' EMSanova(thickness~Gate*Operator*Day,data=film,
+#' EMSanova(thickness~Gate+Operator+Day,data=film,
 #'           type=c("F","R","R"),
 #'           approximate=TRUE)                      
 #'        
