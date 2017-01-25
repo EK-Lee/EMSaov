@@ -19,7 +19,7 @@ Two days in a given month were randomly selected in which to run an experiment. 
 }
 
 \references{
-Fundamental Concepts in the Design of Experiments (3rd ed) - Charles R. Hicks
+Fundamental Concepts in the Design of Experiments (3rd ed.) - Charles R. Hicks
 }
 \examples{
 data(film)

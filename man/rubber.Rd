@@ -19,7 +19,7 @@ A study of the cure rate index on some samples of rubber. Three laboratories, th
   }
 }
 \references{
-Fundamental Concepts in the Design of Experiments (3rd ed) - Charles R. Hicks
+Fundamental Concepts in the Design of Experiments (3rd ed.) - Charles R. Hicks
 }
 \examples{
 data(rubber)

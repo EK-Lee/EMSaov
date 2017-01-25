@@ -20,7 +20,7 @@ PooledANOVA<-function(SS.table,del.ID){
   temp.ID<-del.ID[del.ID!="Residuals"]
   temp.ID<-unlist(lapply(temp.ID,function(x) which(rownames(temp.SS)==x)))
   temp.EMS<-as.character(temp.EMS)
-  temp.SS[nrow(temp.SS),]<-apply(temp.SS[del.ID,],2,sum)
+  temp.SS[nrow(temp.SS),]<-apply(temp.SS[del.ID,],2,function(x) sum(x,na.rm=TRUE))
   temp.SS<-temp.SS[-temp.ID,]
   Model.level<-Model.level[-temp.ID]
   

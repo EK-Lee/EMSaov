@@ -5,7 +5,7 @@
 Nested factorial design of Measurement of velocity
 }
 \description{
-There was on a measurement of velocity of a baseball throw in meters per second. Three groups of subjects were involved, two being subjected to special experimental training and the third acting as a control with no special training.  Each group has 7 subjects and each subject was given a pre- and posttest. 
+There was on a measurement of velocity of a baseball throw in meters per second. Three groups of subjects were involved, two being subjected to special experimental training and the third acting as a control with no special training.  Each group has 7 subjects and each subject was given a pretest and posttest. 
 }
 \usage{data("baseball")}
 \format{
@@ -18,7 +18,7 @@ There was on a measurement of velocity of a baseball throw in meters per second.
   }
 }
 \references{
-Example 11.4 in Fundamental Concepts in the Design of Experiments (3rd ed) - Charles R. Hicks
+Example 11.4 in Fundamental Concepts in the Design of Experiments (3rd ed.) - Charles R. Hicks
 }
 \examples{
 data(baseball)
